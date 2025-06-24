@@ -1,0 +1,41 @@
+{
+  "name": "kaikei_input_pwa",
+  "version": "1.0.0",
+  "description": "会社収支管理PWAアプリ - オフライン対応でデバイスにインストール可能",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "npm run generate-icons && npm run optimize",
+    "generate-icons": "node scripts/generate-icons.js",
+    "optimize": "node scripts/optimize-assets.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pwa",
+    "finance",
+    "accounting",
+    "offline",
+    "mobile",
+    "business"
+  ],
+  "author": "Your Company",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "pwa": {
+    "name": "会社収支管理アプリ",
+    "short_name": "収支管理",
+    "version": "1.0.0",
+    "description": "会社の収支を簡単に管理できるPWAアプリです",
+    "theme_color": "#3498db",
+    "background_color": "#f5f5f5"
+  }
+}

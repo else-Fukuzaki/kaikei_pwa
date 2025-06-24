@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <title>会社収支管理アプリ</title>
+</head>
+<body>
+  <h1>会社収支管理アプリ</h1>
+  <p>このアプリは会社の収支を簡単に管理するためのPWAです。</p>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => {
+          console.log('Service Worker registered successfully');
+        })
+        .catch((error) => {
+          console.error('Error registering Service Worker:', error);
+        });
+    }
+  </script>
+</body>
+</html>
+<script>
+  // Service Workerの登録
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(registration => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(error => {
+          console.error('Service Worker registration failed:', error);
+        });
+    });
+  } else {
+    console.warn('Service Worker is not supported in this browser.');
+  }
+</script>
+<script>
+  // PWAのインストールプロンプトを管理
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const installButton = document.createElement('button');
+    installButton.textContent = 'アプリをインストール';
+    installButton.addEventListener('click', () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('ユーザーはアプリをインストールしました');
+          } else {
+            console.log('ユーザーはアプリのインストールを拒否しました');
+          }
+          deferredPrompt = null;
+        });
+      }
+    });
+    document.body.appendChild(installButton);
+  });

@@ -1,0 +1,665 @@
+/* 全体のスタイル */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 15px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #34495e;
+  font-size: 1.4rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+}
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* PWA関連のスタイル */
+.install-banner,
+.update-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.3s ease-out;
+}
+
+.update-banner {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.install-content,
+.update-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.install-buttons,
+.update-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.install-btn,
+.update-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.install-btn:hover,
+.update-btn:hover {
+  background: white;
+  color: #667eea;
+}
+
+.dismiss-btn {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dismiss-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.connection-status {
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.connection-status.online {
+  color: #27ae60;
+}
+
+.connection-status.offline {
+  color: #e74c3c;
+}
+
+.offline-notice {
+  background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%);
+  color: white;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 1001;
+  animation: slideInRight 0.3s ease-out;
+  max-width: 300px;
+}
+
+.notification-info {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.notification-success {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.notification-error {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ログイン画面のスタイル */
+.login-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.auth-form {
+  display: none;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.auth-form.active {
+  display: block;
+}
+
+.auth-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+.auth-form .form-group {
+  margin-bottom: 20px;
+}
+
+.auth-form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border 0.3s;
+}
+
+.auth-form input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.auth-form small {
+  display: block;
+  margin-top: 5px;
+  color: #7f8c8d;
+  font-size: 12px;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.auth-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.form-error {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-bottom: 15px;
+  min-height: 20px;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  color: #7f8c8d;
+}
+
+.auth-switch a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ヘッダースタイル */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.app-header h1 {
+  margin: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#user-name {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+#logout-btn {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+#logout-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
+}
+
+/* フォームスタイル */
+.input-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+button {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.4);
+}
+
+/* サマリースタイル */
+.summary {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.summary-items {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.summary-item {
+  flex: 1;
+  min-width: 100px;
+  text-align: center;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.summary-item:hover {
+  transform: translateY(-2px);
+}
+
+.summary-item p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* 累計表示スタイル */
+.accumulative {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#total-balance {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* フィルタースタイル */
+.filter {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-controls input {
+  flex: 1;
+  min-width: 150px;
+}
+
+.filter-controls button {
+  min-width: 80px;
+}
+
+#export-btn {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+#export-btn:hover {
+  box-shadow: 0 3px 10px rgba(39, 174, 96, 0.4);
+}
+
+/* テーブルスタイル */
+.transactions {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+tbody tr {
+  transition: background-color 0.3s;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  font-size: 0.9rem;
+  padding: 5px 10px;
+}
+
+.delete-btn:hover {
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+}
+
+/* スマートフォン用のレスポンシブ対応 */
+@media (max-width: 600px) {
+  .login-container {
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .auth-form {
+    padding: 20px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .user-info {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .summary-items {
+    flex-direction: column;
+  }
+
+  .summary-item {
+    margin-bottom: 10px;
+  }
+
+  th,
+  td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-controls input,
+  .filter-controls button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .filter-controls label {
+    margin-bottom: 5px;
+  }
+
+  .install-content,
+  .update-content {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .install-buttons,
+  .update-buttons {
+    justify-content: center;
+  }
+
+  .notification {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  /* バナーが表示されている時のコンテンツ調整 */
+  body.has-banner .page {
+    padding-top: 80px;
+  }
+}
+
+/* タブレット用のレスポンシブ対応 */
+@media (max-width: 768px) and (min-width: 601px) {
+  .summary-items {
+    gap: 10px;
+  }
+
+  .summary-item {
+    min-width: 120px;
+  }
+}
+
+/* PWA用の追加スタイル */
+.pwa-feature {
+  position: relative;
+  overflow: hidden;
+}
+
+.pwa-feature::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transition: transform 0.6s;
+  transform: translateX(-100%);
+}
+
+.pwa-feature:hover::before {
+  transform: translateX(100%);
+}
+
+/* アニメーション効果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* ダークモード対応（将来の拡張用） */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+    color: #e1e1e1;
+  }
+
+  .auth-form,
+  .input-form,
+  .summary,
+  .filter,
+  .transactions {
+    background-color: #2c2c2c;
+  }
+
+  input,
+  select {
+    background-color: #3c3c3c;
+    color: #e1e1e1;
+    border-color: #555;
+  }
+
+  th {
+    background: linear-gradient(135deg, #3c3c3c 0%, #555 100%);
+  }
+}
