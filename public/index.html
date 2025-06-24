@@ -5,60 +5,262 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
   <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3498db">
   <title>会社収支管理アプリ</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #3498db;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .description {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .install-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .install-button {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+      display: none;
+    }
+    .install-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+    .install-button:active {
+      transform: translateY(0);
+    }
+    .status {
+      text-align: center;
+      margin: 20px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .status.installed {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.not-supported {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .features {
+      margin-top: 30px;
+    }
+    .feature-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>会社収支管理アプリ</h1>
-  <p>このアプリは会社の収支を簡単に管理するためのPWAです。</p>
+  <div class="container">
+    <h1>会社収支管理アプリ</h1>
+    <p class="description">このアプリは会社の収支を簡単に管理するためのPWAです。</p>
+    
+    <div id="install-status" class="status" style="display: none;"></div>
+    
+    <div class="install-container">
+      <button id="install-button" class="install-button">
+        📱 アプリをインストール
+      </button>
+    </div>
+    
+    <div class="features">
+      <h3>アプリの特徴</h3>
+      <div class="feature-item">💰 収支の記録と管理</div>
+      <div class="feature-item">📊 データの可視化</div>
+      <div class="feature-item">📱 オフライン対応</div>
+      <div class="feature-item">🔄 自動同期機能</div>
+    </div>
+  </div>
+
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => {
-          console.log('Service Worker registered successfully');
-        })
-        .catch((error) => {
-          console.error('Error registering Service Worker:', error);
-        });
+    let deferredPrompt;
+    let isInstalled = false;
+    
+    // PWAがすでにインストールされているかチェック
+    function checkInstallStatus() {
+      if (window.matchMedia('(display-mode: standalone)').matches || 
+          window.navigator.standalone === true) {
+        isInstalled = true;
+        showInstallStatus('アプリはインストール済みです', 'installed');
+        return;
+      }
+      
+      // Service Workerがサポートされているかチェック
+      if (!('serviceWorker' in navigator)) {
+        showInstallStatus('このブラウザではPWAがサポートされていません', 'not-supported');
+        return;
+      }
+      
+      // beforeinstallpromptイベントを待つ
+      showInstallStatus('インストール準備中...', '');
     }
+
+    function showInstallStatus(message, type) {
+      const statusElement = document.getElementById('install-status');
+      statusElement.textContent = message;
+      statusElement.className = `status ${type}`;
+      statusElement.style.display = 'block';
+    }
+
+    function showInstallButton() {
+      const installButton = document.getElementById('install-button');
+      installButton.style.display = 'inline-block';
+      document.getElementById('install-status').style.display = 'none';
+    }
+
+    function hideInstallButton() {
+      const installButton = document.getElementById('install-button');
+      installButton.style.display = 'none';
+    }
+
+    // Service Workerの登録
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+            
+            // Service Workerの更新をチェック
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // 新しいバージョンが利用可能
+                  if (confirm('新しいバージョンが利用可能です。更新しますか？')) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    window.location.reload();
+                  }
+                }
+              });
+            });
+          })
+          .catch(error => {
+            console.error('Service Worker registration failed:', error);
+            showInstallStatus('Service Worker の登録に失敗しました', 'not-supported');
+          });
+      });
+    }
+
+    // PWAインストールプロンプトの管理
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('beforeinstallprompt event fired');
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallButton();
+    });
+
+    // インストールボタンのクリックイベント
+    document.getElementById('install-button').addEventListener('click', async () => {
+      if (!deferredPrompt) {
+        console.log('No deferred prompt available');
+        return;
+      }
+
+      try {
+        // インストールプロンプトを表示
+        deferredPrompt.prompt();
+        
+        // ユーザーの選択を待つ
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+          console.log('ユーザーはアプリをインストールしました');
+          showInstallStatus('インストールありがとうございます！', 'installed');
+          hideInstallButton();
+        } else {
+          console.log('ユーザーはアプリのインストールを拒否しました');
+          showInstallStatus('インストールはキャンセルされました', '');
+        }
+        
+        deferredPrompt = null;
+      } catch (error) {
+        console.error('インストールエラー:', error);
+        showInstallStatus('インストール中にエラーが発生しました', 'not-supported');
+      }
+    });
+
+    // アプリがインストールされた時の処理
+    window.addEventListener('appinstalled', (e) => {
+      console.log('PWA was installed');
+      showInstallStatus('アプリがインストールされました！', 'installed');
+      hideInstallButton();
+      isInstalled = true;
+    });
+
+    // ページ読み込み時にインストール状態をチェック
+    window.addEventListener('load', () => {
+      checkInstallStatus();
+    });
+
+    // iOS Safari用の特別な処理
+    function checkiOSInstallPrompt() {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
+      
+      if (isIOS && !isInStandaloneMode && !deferredPrompt) {
+        // iOS用のカスタムインストール案内を表示
+        setTimeout(() => {
+          if (!deferredPrompt) {
+            const iosMessage = `
+              iOSでこのアプリをインストールするには：
+              1. Safariの共有ボタン（□↑）をタップ
+              2. 「ホーム画面に追加」を選択
+              3. 「追加」をタップ
+            `;
+            showInstallStatus('ホーム画面に追加してアプリとして使用できます', '');
+            
+            // iOSユーザー向けの説明を表示
+            const installContainer = document.querySelector('.install-container');
+            const iosInstructions = document.createElement('div');
+            iosInstructions.innerHTML = `
+              <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                <strong>iOS ユーザーの方へ:</strong><br>
+                Safari の共有ボタン <span style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 3px;">□↑</span> から「ホーム画面に追加」を選択してください
+              </p>
+            `;
+            installContainer.appendChild(iosInstructions);
+          }
+        }, 3000);
+      }
+    }
+    
+    // iOS用のチェックを遅延実行
+    setTimeout(checkiOSInstallPrompt, 2000);
   </script>
 </body>
 </html>
-<script>
-  // Service Workerの登録
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(registration => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch(error => {
-          console.error('Service Worker registration failed:', error);
-        });
-    });
-  } else {
-    console.warn('Service Worker is not supported in this browser.');
-  }
-</script>
-<script>
-  // PWAのインストールプロンプトを管理
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const installButton = document.createElement('button');
-    installButton.textContent = 'アプリをインストール';
-    installButton.addEventListener('click', () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('ユーザーはアプリをインストールしました');
-          } else {
-            console.log('ユーザーはアプリのインストールを拒否しました');
-          }
-          deferredPrompt = null;
-        });
-      }
-    });
-    document.body.appendChild(installButton);
-  });
