@@ -1,21 +1,38 @@
-/* 全体のスタイル */
+/* 全体のスタイル - モバイルファースト */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* タッチデバイス用のタップハイライト無効化 */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   background-color: #f5f5f5;
   color: #333;
   line-height: 1.6;
+  font-size: 16px;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px 15px;
+  padding: 16px;
+}
+
+/* デスクトップサイズでのパディング調整 */
+@media (min-width: 769px) {
+  .container {
+    padding: 20px 15px;
+  }
 }
 
 h1 {
@@ -40,7 +57,7 @@ h3 {
   min-height: 100vh;
 }
 
-/* PWA関連のスタイル */
+/* PWA関連のスタイル - モバイル最適化 */
 .install-banner,
 .update-banner {
   position: fixed;
@@ -49,10 +66,19 @@ h3 {
   right: 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 15px;
+  padding: 16px;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   animation: slideDown 0.3s ease-out;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+  .install-banner,
+  .update-banner {
+    padding: 20px 16px;
+  }
 }
 
 .update-banner {
@@ -88,11 +114,23 @@ h3 {
   background: rgba(255, 255, 255, 0.2);
   color: white;
   border: 2px solid white;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 12px 20px;
+  border-radius: 24px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .install-btn,
+  .update-btn {
+    padding: 14px 24px;
+    font-size: 16px;
+    min-height: 48px;
+  }
 }
 
 .install-btn:hover,
@@ -225,11 +263,13 @@ h3 {
 
 .auth-form input {
   width: 100%;
-  padding: 12px;
+  padding: 16px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
   transition: border 0.3s;
+  min-height: 48px;
+  -webkit-appearance: none;
 }
 
 .auth-form input:focus {
@@ -247,14 +287,17 @@ h3 {
 
 .auth-form button {
   width: 100%;
-  padding: 12px;
+  padding: 16px;
   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .auth-form button:hover {
@@ -313,11 +356,22 @@ h3 {
   background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 12px 16px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
   transition: all 0.3s;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 768px) {
+  #logout-btn {
+    padding: 14px 20px;
+    font-size: 16px;
+    min-height: 48px;
+  }
 }
 
 #logout-btn:hover {
@@ -347,11 +401,24 @@ label {
 input,
 select {
   width: 100%;
-  padding: 10px;
+  padding: 16px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
   transition: border 0.3s;
+  min-height: 48px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* デスクトップでのパディング調整 */
+@media (min-width: 769px) {
+  input,
+  select {
+    padding: 12px;
+    min-height: auto;
+  }
 }
 
 input:focus,
@@ -365,11 +432,23 @@ button {
   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
+  padding: 16px 24px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 600;
   transition: all 0.3s;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+}
+
+/* デスクトップでのボタンサイズ調整 */
+@media (min-width: 769px) {
+  button {
+    padding: 12px 20px;
+    min-height: auto;
+  }
 }
 
 button:hover {
@@ -500,16 +579,27 @@ tbody tr:hover {
 
 .delete-btn {
   background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-  font-size: 0.9rem;
-  padding: 5px 10px;
+  font-size: 14px;
+  padding: 8px 12px;
+  min-height: 40px;
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .delete-btn {
+    padding: 12px 16px;
+    font-size: 16px;
+    min-height: 44px;
+  }
 }
 
 .delete-btn:hover {
   box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
 }
 
-/* スマートフォン用のレスポンシブ対応 */
-@media (max-width: 600px) {
+/* より大きいスマートフォンとタブレット用の調整 */
+@media (max-width: 768px) {
   .login-container {
     margin: 20px auto;
     padding: 15px;
@@ -540,23 +630,35 @@ tbody tr:hover {
 
   th,
   td {
-    padding: 8px 10px;
-    font-size: 0.9rem;
+    padding: 12px 8px;
+    font-size: 15px;
+  }
+  
+  /* テーブルを横スクロール可能に */
+  .transactions {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    min-width: 600px;
   }
 
   .filter-controls {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 16px;
   }
 
   .filter-controls input,
   .filter-controls button {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 0;
   }
 
   .filter-controls label {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 600;
   }
 
   .install-content,
@@ -635,6 +737,71 @@ tbody tr:hover {
 
 .fade-in-up {
   animation: fadeInUp 0.6s ease-out;
+}
+
+/* スマートフォン固有の最適化 */
+/* スクロールの滑らかさを向上 */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* フォーカス時のアウトライン改善 */
+input:focus,
+select:focus,
+button:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* セレクトボックスの矢印をカスタマイズ */
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* 長いテキストの省略表示 */
+.summary-item h3,
+.feature-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .summary-item h3,
+  .feature-item {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* アクセシビリティ向上：高コントラスト対応 */
+@media (prefers-contrast: high) {
+  button,
+  .install-btn,
+  .update-btn {
+    border: 2px solid currentColor;
+  }
+  
+  input,
+  select {
+    border-width: 2px;
+  }
+}
+
+/* アニメーション無効設定のユーザーへの配慮 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ダークモード対応（将来の拡張用） */
