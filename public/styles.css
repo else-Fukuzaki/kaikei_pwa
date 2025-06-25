@@ -3,7 +3,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -270,6 +271,10 @@ h3 {
   transition: border 0.3s;
   min-height: 48px;
   -webkit-appearance: none;
+  appearance: none;
+  appearance: none;
+  appearance: none;
+  appearance: none;
 }
 
 .auth-form input:focus {
@@ -633,13 +638,13 @@ tbody tr:hover {
     padding: 12px 8px;
     font-size: 15px;
   }
-  
+
   /* テーブルを横スクロール可能に */
   .transactions {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   table {
     min-width: 600px;
   }
@@ -786,7 +791,7 @@ select {
   .update-btn {
     border: 2px solid currentColor;
   }
-  
+
   input,
   select {
     border-width: 2px;
