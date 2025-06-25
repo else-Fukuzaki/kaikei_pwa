@@ -1,4 +1,4 @@
-/* 全体のスタイル - モバイルファースト */
+/* 全体のスタイル - デスクトップファースト */
 * {
   margin: 0;
   padding: 0;
@@ -19,6 +19,8 @@ body {
   color: #333;
   line-height: 1.6;
   font-size: 16px;
+  margin: 0;
+  padding: 10px;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
 }
@@ -26,20 +28,118 @@ body {
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 16px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-/* デスクトップサイズでのパディング調整 */
-@media (min-width: 769px) {
+/* モバイルサイズでのパディング調整 */
+@media (max-width: 768px) {
   .container {
-    padding: 20px 15px;
+    margin: 10px;
+    padding: 16px;
+    border-radius: 8px;
   }
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #2c3e50;
+  margin-bottom: 10px;
+  color: #3498db;
+}
+
+/* ランディングページ用のスタイル */
+.description {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.install-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.install-button {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  display: none;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.install-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+.install-button:active {
+  transform: translateY(0);
+}
+
+.status {
+  text-align: center;
+  margin: 20px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.status.installed {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status.not-supported {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.features {
+  margin-top: 30px;
+}
+
+.feature-item {
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-2px);
+}
+
+.feature-item:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .install-button {
+    width: 100%;
+    padding: 18px 32px;
+    font-size: 18px;
+    min-height: 56px;
+  }
+
+  .feature-item {
+    padding: 20px;
+    font-size: 17px;
+    margin-bottom: 16px;
+  }
 }
 
 h2 {
