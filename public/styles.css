@@ -271,9 +271,7 @@ h3 {
   transition: border 0.3s;
   min-height: 48px;
   -webkit-appearance: none;
-  appearance: none;
-  appearance: none;
-  appearance: none;
+  -moz-appearance: none;
   appearance: none;
 }
 
