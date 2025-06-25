@@ -444,8 +444,29 @@ button {
   min-height: 48px;
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
+  appearance: none;
+}
+/* セレクト要素のネイティブ外観を無効化し、カスタムスタイルを適用 */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
+/* Firefoxでのセレクトボックスの矢印を非表示 */
+select::-ms-expand {
+  display: none;
+}
+
+/* iOS/Safariでのフォーム要素のデフォルトスタイルをリセット */
+input[type='submit'],
+input[type='button'],
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 8px;
+}
 /* デスクトップでのボタンサイズ調整 */
 @media (min-width: 769px) {
   button {
